@@ -126,6 +126,8 @@ if __name__ == '__main__':
     conv_losses = train(conv_net, data['train'], epochs=15, lr=.01)
     plt.plot(smooth(conv_losses, 50))
 
+    torch.save(conv_net.state_dict(), './neuralnet')
+
     print("Training accuracy: %f" % accuracy(conv_net, data['train']))
     print("Testing  accuracy: %f" % accuracy(conv_net, data['test']))
 
