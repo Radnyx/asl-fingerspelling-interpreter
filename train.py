@@ -9,6 +9,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import torchvision.datasets as datasets
+from model import ConvNet
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -41,29 +42,6 @@ def get_data():
     classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
                'U', 'V', 'W', 'X', 'Y', 'Z', 'nothing', 'space', 'del']
     return {'train': trainloader, 'test': testloader, 'classes': classes}
-
-
-class ConvNet(nn.Module):
-    def __init__(self):
-        super(ConvNet, self).__init__()
-        self.conv1 = nn.Conv2d(1, 16, 3, stride=2, padding=1)
-
-        self.conv2 = nn.Conv2d(16, 32, 3, stride=2, padding=1)
-
-        self.conv3 = nn.Conv2d(32, 64, 3, stride=2, padding=1)
-
-        self.fc1 = nn.Linear(4096, 28)
-
-    def forward(self, x):
-        x = self.conv1(x)
-        x = F.relu(x)
-        x = self.conv2(x)
-        x = F.relu(x)
-        x = self.conv3(x)
-        x = F.relu(x)
-        x = torch.flatten(x, 1)
-        x = self.fc1(x)
-        return x
 
 
 def train(net, dataloader, epochs=1, lr=0.01, momentum=0.9, decay=0.0, verbose=1):
