@@ -24,7 +24,7 @@ if __name__ == "__main__":
 	model = ConvNet()
 	model.load_state_dict(torch.load("./neuralnet"))
 	model.eval()
-	torch.save(model.state_dict(), './neuralnet2', _use_new_zipfile_serialization=False)
+
 	cv2.namedWindow("preview")
 	vc = cv2.VideoCapture(0)
 
