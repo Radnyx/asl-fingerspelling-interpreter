@@ -24,7 +24,7 @@ if __name__ == "__main__":
 	model = ConvNet()
 	model.load_state_dict(torch.load("./neuralnet"))
 	model.eval()
-
+	torch.save(model.state_dict(), './neuralnet2', _use_new_zipfile_serialization=False)
 	cv2.namedWindow("preview")
 	vc = cv2.VideoCapture(0)
 
@@ -36,8 +36,8 @@ if __name__ == "__main__":
 	while rval:
 
 		frame = Image.fromarray(frame)
-		frame = frame.crop((frame.height // 2, 0,
-												frame.width - frame.height // 2, h))
+		frame = frame.crop(((frame.width - frame.height) // 2, 0,
+							(frame.width + frame.height) // 2, frame.height))
 
 		x = image_loader(frame)
 		_, predicted = torch.max(model(x).data, 1)
@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
 		print(classes[predicted.item()])
 
-		cv2.imshow("preview", frame)
+		cv2.imshow("preview", np.array(frame))
 		rval, frame = vc.read()
 		key = cv2.waitKey(20)
 		if key == 27:
