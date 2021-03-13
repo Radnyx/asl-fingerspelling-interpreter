@@ -1,4 +1,8 @@
 import cv2
+import torch
+import torchvision.transforms as transforms
+import numpy as np
+from PIL import Image
 from model import ConvNet
 
 TRANSFORM = transforms.Compose([
@@ -7,15 +11,17 @@ TRANSFORM = transforms.Compose([
     transforms.ToTensor()
 ])
 
-def image_loader(loader, image):
+def image_loader(image):
+	image = Image.fromarray(image)
 	image = TRANSFORM(image).float()
 	image = torch.tensor(image, requires_grad=True)
 	image = image.unsqueeze(0)
 	return image
 
-if __name__ == "main":
 
-	model m = ConvNet()
+if __name__ == "__main__":
+
+	model = ConvNet()
 	model.load_state_dict(torch.load("./neuralnet"))
 	model.eval()
 
