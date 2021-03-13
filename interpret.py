@@ -12,7 +12,6 @@ TRANSFORM = transforms.Compose([
 ])
 
 def image_loader(image):
-	image = Image.fromarray(image)
 	image = TRANSFORM(image).float()
 	# image = torch.tensor(image, requires_grad=True)
 	image = image.clone().detach().requires_grad_(True)
@@ -35,9 +34,12 @@ if __name__ == "__main__":
 		rval = False
 
 	while rval:
+
+		frame = Image.fromarray(frame)
+		frame = frame.crop((frame.height // 2, 0,
+												frame.width - frame.height // 2, h))
+
 		x = image_loader(frame)
-		# print(x.size())
-		# print(model(x))
 		_, predicted = torch.max(model(x).data, 1)
 
 		classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'nothing', 'O', 'P', 'Q', 'R',
