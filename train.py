@@ -17,30 +17,25 @@ def get_data():
 
     # Remember that we might need to flip the images horizontally
     transform_train = transforms.Compose([
+        transforms.Resize((64, 64)),
         transforms.Grayscale(),
-        transforms.Resize(64),
         transforms.ToTensor()
     ])
 
-    transform_test = transforms.Compose([
-        transforms.Grayscale(),
-        transforms.Resize(64),
-        transforms.ToTensor()
-    ])
-
-    train_data_path = './archive/asl_alphabet_train/asl_alphabet_train/'
-    train_dataset = datasets.ImageFolder(train_data_path, transform=transform_train)
+    data_path = './dataset5/A/'
+    dataset = datasets.ImageFolder(data_path, transform=transform_train)
+    train_size = int(.8 * len(dataset))
+    test_size = len(dataset) - train_size
+    train_dataset, test_dataset = torch.utils.data.random_split(dataset, [train_size, test_size])
 
     trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=128, shuffle=True,
                                                 num_workers=12)
 
-    test_data_path = './archive/asl_alphabet_test/asl_alphabet_test/'
-    test_dataset = datasets.ImageFolder(test_data_path, transform_test)
+    testloader = torch.utils.data.DataLoader(test_dataset, batch_size=128, shuffle=True,
+                                              num_workers=12)
 
-    testloader = torch.utils.data.DataLoader(test_dataset, batch_size=128, shuffle=False,
-                                             num_workers=12)
-    classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-               'U', 'V', 'W', 'X', 'Y', 'Z', 'nothing', 'space', 'del']
+    classes = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+               'u', 'v', 'w', 'x', 'y']
     return {'train': trainloader, 'test': testloader, 'classes': classes}
 
 
@@ -104,7 +99,7 @@ if __name__ == '__main__':
     conv_losses = train(conv_net, data['train'], epochs=15, lr=.01)
     plt.plot(smooth(conv_losses, 50))
 
-    torch.save(conv_net.state_dict(), './neuralnet')
+    torch.save(conv_net.state_dict(), './neuralnet3', _use_new_zipfile_serialization=False)
 
     print("Training accuracy: %f" % accuracy(conv_net, data['train']))
     print("Testing  accuracy: %f" % accuracy(conv_net, data['test']))

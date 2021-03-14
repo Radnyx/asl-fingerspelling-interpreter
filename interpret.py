@@ -22,7 +22,7 @@ def image_loader(image):
 if __name__ == "__main__":
 
 	model = ConvNet()
-	model.load_state_dict(torch.load("./neuralnet"))
+	model.load_state_dict(torch.load("./neuralnet3"))
 	model.eval()
 
 	cv2.namedWindow("preview")
@@ -42,8 +42,8 @@ if __name__ == "__main__":
 		x = image_loader(frame)
 		_, predicted = torch.max(model(x).data, 1)
 
-		classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'nothing', 'O', 'P', 'Q', 'R',
-				   'S', 'space', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+		classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+				   'S', 'T', 'U', 'V', 'W', 'X', 'Y']
 
 		print(classes[predicted.item()])
 
