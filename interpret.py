@@ -6,9 +6,10 @@ from PIL import Image
 from model import ConvNet
 
 TRANSFORM = transforms.Compose([
-    transforms.Grayscale(),
     transforms.Resize((64, 64)),
-    transforms.ToTensor()
+	transforms.Grayscale(),
+    transforms.ToTensor(),
+	transforms.Normalize(0, 1)
 ])
 
 def image_loader(image):
