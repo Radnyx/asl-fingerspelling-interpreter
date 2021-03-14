@@ -19,7 +19,9 @@ def get_data():
     transform_train = transforms.Compose([
         transforms.Resize((64, 64)),
         transforms.Grayscale(),
-        transforms.ToTensor()
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize(0, 1)
     ])
 
     data_path = './dataset5/A/'
@@ -99,7 +101,7 @@ if __name__ == '__main__':
     conv_losses = train(conv_net, data['train'], epochs=15, lr=.01)
     plt.plot(smooth(conv_losses, 50))
 
-    torch.save(conv_net.state_dict(), './neuralnet3', _use_new_zipfile_serialization=False)
+    torch.save(conv_net.state_dict(), 'neuralnet4', _use_new_zipfile_serialization=False)
 
     print("Training accuracy: %f" % accuracy(conv_net, data['train']))
     print("Testing  accuracy: %f" % accuracy(conv_net, data['test']))
