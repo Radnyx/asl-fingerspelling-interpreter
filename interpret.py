@@ -22,7 +22,7 @@ def image_loader(image):
 if __name__ == "__main__":
 
 	model = ConvNet()
-	model.load_state_dict(torch.load("./neuralnet3"))
+	model.load_state_dict(torch.load("./neuralnet4"))
 	model.eval()
 
 	cv2.namedWindow("preview")

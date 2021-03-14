@@ -13,7 +13,7 @@ class ConvNet(nn.Module):
 
         self.conv3 = nn.Conv2d(32, 64, 3, stride=2, padding=1)
 
-        self.fc1 = nn.Linear(4096, 28)
+        self.fc1 = nn.Linear(4096, 24)
 
     def forward(self, x):
         x = self.conv1(x)
