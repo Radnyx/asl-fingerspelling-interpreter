@@ -9,7 +9,7 @@ TRANSFORM = transforms.Compose([
     transforms.Resize((64, 64)),
 	transforms.Grayscale(),
     transforms.ToTensor(),
-	transforms.Normalize((0,1), (1,))
+	transforms.Normalize((0,), (1,))
 ])
 
 def image_loader(image):
